@@ -1,27 +1,55 @@
-$FTcomputers = Get-ADComputer -filter * -SearchBase "OU=Windows Servers,DC=ad,DC=ft,DC=com"
+##AD - Search windows OUs and append OU shortname to AD Computer object
+#################################################################
 
-$found=@{}
-$FTcomputers | ForEach-Object{
-$currentObj = $_
+$FTcomputers =@()
+$OUSearchBase = "OU=Windows Servers,DC=ad,DC=ft,DC=com"
+$OUexclusion = "Windows Servers", "ZZZ - Computers to be deleted", "ZZZ - GPO Testing"
 
-try
+$ous = Get-ADOrganizationalUnit -SearchBase $OUSearchBase -SearchScope Subtree -Filter *
+
+ForEach($ou in $ous){
+
+  if ($OUexclusion -NotContains "$($ou.name)"){
+    write-host "$ou.name in loop"
+    $FTcomputers += $(Get-ADComputer -filter * -SearchBase $ou.DistinguishedName )|
+    Select @{n='ou';e={$ou.name}}, *
+  }
+}
+
+##Search windows OUs and append OU shortname to AD Computer object
+#################################################################
+
+$FTServers =@()
+$FTcomputers | % {
+  $FTServersft
+  $i++
+  $currentObj = $_
+ try
     {
         $errorActionPreference = "Stop"
-        $result = Invoke-Command -ComputerName $($currentObj.Name) { 1 }
-        $currentobj = $currentobj | select *, @{n='PSremoting';e={"True"}}
-        $found.add($currentObj.Name,$currentobj)
-        "success $($currentobj.name)!"
+        $result = Invoke-Command -ComputerName $($_.Name) { 1 }
+        $obj= $_ | select *, @{n='PSremoting';e={"True"}}
+        $FTServers += $obj
+        "success $($_.name)!"
+        "$i"
     }
-    catch
+  catch
     {
-        $currentobj = $currentobj | select *, @{n='PSremoting';e={"False"}}
-        $found.add($currentObj.Name,$currentobj)
-         "Failed $($currentobj.name)!"
-    }
-
-    if($result -ne 1) ## great way to check for errors
-    {
-        Write-Verbose "Remoting to $computerName returned an unexpected result."
-        return $result
+        $ErrorValue = $_
+        $obj= $currentObj | select *, @{n='PSremoting';e={"False"}}, @{n='PSremotingErrorObj';e={"$ErrorValue"}}
+        $FTServers += $obj
+        "Failed $($_.name)!"
+        "$i"
     }
 }
+
+##
+#Test-connection
+##
+
+####
+##is ADObject dead ?
+
+
+##
+#lastlogins
