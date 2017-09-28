@@ -52,3 +52,33 @@ $VMdata = @()
 
   $VMdata | Export-Csv -NoTypeInformation C:\Amar\VMHostAudit.csv
 }
+
+
+#function VMware-AWSandAD() {
+
+$FTvmwareServers = Import-Csv -Path C:\Amar\VMHostAudit.csv
+
+## need to add error checking for mulitple VMs with the same name
+$FTvmwareServers =@()
+
+    Foreach($VIwindowserver in $( $newami | ? { $_.OS -eq "Windows" })){
+        #write-host "loop 1"
+        ForEach($ADserver in $ftservers){
+           # write-host "loop 2"
+            $serverProperties = $($ADserver.PSObject.Properties)
+
+            if ($($AWSwindowsServer.name) -like "$($ADserver.name)"){
+            write-host "$($AWSwindowsServer.name)+ $($ADserver.name)"
+               for ($i = 0; $i -lt $($serverProperties.count) ;$i++){
+                    $AWSwindowsServer = $AWSwindowsServer | select *,
+                    @{n="$($serverProperties[$i].Name)";e={$($serverProperties[$i].value)}}
+
+               }
+
+            $FtserversANDaws += $AWSwindowsServer
+            }
+        }
+
+    } $FtserversANDvmware
+
+#}

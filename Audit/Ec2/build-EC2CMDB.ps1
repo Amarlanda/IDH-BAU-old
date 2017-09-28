@@ -36,20 +36,31 @@ $newami =@()
 
 }
 
-$windowsAMIs = $newami | ? { $_.OS -ne $null } ## get null OS i.e for non windows
+#function Combine-AWSandAD() {
 
-$FtserversANDaws = @()
+$ftservers = Import-Clixml -Path C:\Amar\ADObjects.xml
 
-$windowsAMIs | % {
-    $currentobj = $_
+## need to add error checking for mulitple VMs with the same name
+$FtserversANDaws =@()
 
-    $Ftservers | %{
+    Foreach($AWSwindowsServer in $( $newami | ? { $_.OS -ne $null })){
+        #write-host "loop 1"
+        ForEach($ADserver in $ftservers){
+           # write-host "loop 2"
+            $serverProperties = $($ADserver.PSObject.Properties)
 
-    write-host "$($_.name) -like $($currentobj.name)"
-        ?($($_.name) -like "*$($currentobj.name)*"){
-            Write-host "found $_.name $currentobj.name"
-            $FtserversANDaws += $_ | select *
+            if ($($AWSwindowsServer.name) -like "$($ADserver.name)"){
+            write-host "$($AWSwindowsServer.name)+ $($ADserver.name)"
+               for ($i = 0; $i -lt $($serverProperties.count) ;$i++){
+                    $AWSwindowsServer = $AWSwindowsServer | select *,
+                    @{n="$($serverProperties[$i].Name)";e={$($serverProperties[$i].value)}}
+
+               }
+
+            $FtserversANDaws += $AWSwindowsServer
+            }
         }
-    }
 
-}
+    } $FtserversANDaws
+
+#}
