@@ -61,6 +61,7 @@ $FtserversANDaws =@()
             }
         }
 
-    } $FtserversANDaws
+    }
+    $FtserversANDaws
 
 #}

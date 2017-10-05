@@ -1,0 +1,38 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Example cloudformation template for amazon-ftbase",
+    "Resources": {
+        "Example": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "IamInstanceProfile": "FT-Linux-Role",
+                "ImageId": "ami-ebd02392",
+                "InstanceType": "m4.large",
+                "SecurityGroupIds": ["sg-54c0a631", "sg-28fd994d"],
+                "SubnetId": "subnet-73ecbc35",
+                "Tags": [
+                    { "Key": "Name", "Value": "IDH Jenkins Ansible Dev" },
+                    { "Key": "description", "Value": "Dev Jenkins Ansible Server for IDH Team " },
+                    { "Key": "environment", "Value": "d" },
+                    { "Key": "ipCode", "Value": "YOUR_PCODE" },
+                    { "Key": "stopSchedule", "Value": "everyday" },
+                    { "Key": "systemCode", "Value": "windows-tooling" },
+                    { "Key": "teamDL", "Value": "ent.svcs.fs.infdatahost@ft.com" }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "/usr/bin/aws s3 cp s3://ft-ce-repository/amazon-ftbase/releases/bootstrap.sh /\n",
+                                "bash /bootstrap.sh -s cloudenablement -e d\n",
+                                "bash /bootstrap.sh -s eng -e d\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

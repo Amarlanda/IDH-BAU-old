@@ -1,3 +1,4 @@
+$fragments =@()
 
 $a = "<style>"
 $a = $a + "BODY{background-color: rgb(255, 241, 229) ;}"
@@ -9,12 +10,15 @@ $a = $a + "</style>"
 
 $HTML = $tempWorkingArray[1] | select ou, name, vc, vmpath | ConvertTo-HTML -head $a -body "<H2>FINANCIAL TIMES</H2>"
 
+<#
 $HTML | %{
  $bla =$_.split("<td>") | select -First 1
 
 $_ -replace "<td>", "$bla hey"
 
 }| Out-File C:\amar\Test.html
+#>
+
 
 ##creating html reports with powershell
 ##youtube.com

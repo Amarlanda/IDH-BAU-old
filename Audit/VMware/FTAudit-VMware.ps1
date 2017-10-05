@@ -35,7 +35,7 @@ $VMdata = @()
      $VMdata +=  $hostdata | % {
       $CurrentVMHost = $_
       write-host "trying $($_.name)"
-       get-vm -location $_.name| select Name, powerstate,
+       get-vm -location $_.name| select Name, powerstate, GuestId,
             @{n='VMPath';e={"$($CurrentVMHost.path)\$($_.vmhost)"}},
             @{n='VMHostName';e={$CurrentVMhost.name}},
             @{n='VMHostPowerState';e={$CurrentVMhost.PowerState}},
@@ -50,13 +50,13 @@ $VMdata = @()
    $VMdata
   }
 
-  $VMdata | Export-Csv -NoTypeInformation C:\Amar\VMHostAudit.csv
+  $VMdata | Export-Clixml -Path C:\Amar\VMHostAudit.XML
 }
 
 
 #function VMware-AWSandAD() {
 
-$FTvmwareServers = Import-Csv -Path C:\Amar\VMHostAudit.csv
+#$FTvmwareServers = Import-Csv -Path C:\Amar\VMHostAudit.csv
 
 ## need to add error checking for mulitple VMs with the same name
 $FTvmwareServers =@()
