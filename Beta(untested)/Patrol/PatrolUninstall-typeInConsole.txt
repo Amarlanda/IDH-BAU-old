@@ -1,0 +1,20 @@
+"Patrolagent", "BGS_SDService", "BMC Distribution Client", "Patrol for Windows Operating System Monitor" |
+   % { stop-service $_ }
+
+"Patrolagent", "BGS_SDService", "BMC Distribution Client", "Patrol for Windows Operating System Monitor" |
+   % { get-service $_ }
+
+echo "removing keys HKEY_LOCAL_MACHINE\SOFTWARE\BMC Software"
+reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\BMC Software" /f
+
+echo "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BGS_SDService"
+reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\BGS_SDService" /f
+
+echo "removing keys HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dsl"
+reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dsl" /f
+
+echo "removing keys HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\patrolagent"
+reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\patrolagent" /f
+
+echo "removing keys HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PWKNTMon"
+reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PWKNTMon" /f
