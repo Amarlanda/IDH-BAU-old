@@ -80,3 +80,12 @@ False
 #}
 
 #$VMdata
+
+#>
+
+
+foreach ($Serverlist1 in $Serverlist2.GetEnumerator()) {
+
+  ##COMPARERRR TWOOO HASHHH ARRAYS
+  ##https://powershell.org/forums/topic/comparing-two-multi-dimensional-arrays/
+}

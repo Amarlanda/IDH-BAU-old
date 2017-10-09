@@ -83,6 +83,8 @@ $FTcomputers | % {
     }
 }
 
+$FTServers | Export-Clixml -path c:\amar\computer.xml
+
 ##
 #Test-connection
 ##
