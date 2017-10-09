@@ -8,8 +8,9 @@ $a = $a + "TD{border-width: 1px;padding: 0px;border-style: solid;border-color: b
 $a = $a + ".warn {}"
 $a = $a + "</style>"
 
-$HTML = $tempWorkingArray[1] | select ou, name, vc, vmpath | ConvertTo-HTML -head $a -body "<H2>FINANCIAL TIMES</H2>"
+$HTML = $Allservers | select  MachineType, ou, name, 'VI - VC', 'VI - VMPath' | ConvertTo-HTML -head $a -body "<H2>FINANCIAL TIMES</H2>"
 
+$HTML | Out-File C:\amar\Test.html
 <#
 $HTML | %{
  $bla =$_.split("<td>") | select -First 1
