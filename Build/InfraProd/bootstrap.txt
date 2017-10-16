@@ -1,0 +1,21 @@
+
+
+ComputerDescription=IDH Team Jenkins Server Prod
+JoinDomain=ad.ft.com
+# for LocalAdmins use a ; to separate names or groups, must include domain
+LocalAdmins=ADFT\amar.landa
+JoinOU=OU=AWS Ireland,OU=Windows Servers,DC=ad,DC=ft,DC=com
+# DatacentreCode is ln, pr, iw, ir, mn, nj
+DatacentreCode=ir
+DNSSearchSuffix=ad.ft.com,osb.ft.com
+# ComputerRole is app, mgt, web etc
+ComputerName=FTJEN01-WVIR-P
+ComputerRole (AWS only)=app
+# ComputerNameSuffix is p, t, d etc
+ComputerNameSuffix (AWS only)=p
+LdapServer=ldap.ad.ft.com
+JoinDomainUsername=sgdrwsuser
+JoinDomainPassword=76492d1116743f0423413b16050a5345MgB8AFgAMwBmAG0AMgBJAGkAMgBwAGsAVwA4AFEAeQBwAGEANQBWADMAZABUAGcAPQA9AHwAYwBjAGEAMQAyADYAYgA0AGUAZgAyADUAZQAxAGIANQAzAGIAMAA0ADQAMQBlADgAYwBmADAAZgA5AGUAYgAyAGYAMQAxADYAZABmADIAMABhADUANgBmAGUAYwBkAGEANwA1ADUAZAAwADQAMQBkADUAZQAzAGQAYwBlAGEAMAA=
+# for EmailRecipients use a semicolon to separate recipients
+EmailRecipients=amar.landa@ft.com
+VMrequester=Amar.landa@ft.com
