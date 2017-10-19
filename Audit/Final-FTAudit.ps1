@@ -70,6 +70,7 @@
       #$InnerSwingArray = $null           # Cleared Swing Array so it can be used to pop the inner array.  
       $InnerArray = $InnerSwingArray     # Array could now have one element poppd out of it.
 
+
       foreach($Inner in $InnerArray){
 
         if ($($Inner.Name) -contains $($Outter.name)){  #Does Outter.name - match Inner.name
@@ -83,10 +84,11 @@
           $InnerSwingArray  = $InnerSwingArray | Where-Object { $($_.name) -notlike $($Inner.name)}
           $OutterSwingArray  = $OutterSwingArray | Where-Object { $($_.name) -notlike $($Inner.name)} 
           $Inner = $Inner  | Select-Object -Property *, @{name="MachineType";e={$expression}}
-          $Allservers += $Inner                                         
+          $Allservers += $Inner  
+          { Break }                                       
         } # end of if -compare Outter.name matches Inner.name
             
-                
+        $InnerArray = $InnerSwingArray        
       } #end of inner array
       
     } #end of outter array
@@ -97,7 +99,7 @@
 
   End{
 
-    $OutterArray | ForEach-Object {
+    $OutterSwingArray | ForEach-Object {
       $CurrentObj = $_
 
       for ($i = 0; $i -lt $($serverProperties.count) ;$i++)
@@ -126,7 +128,7 @@
 [System.Collections.ArrayList]$Array0 = 
 [System.Collections.ArrayList]$Array1 = 
 
-$base = $(Import-Clixml -Path "C:\Amar\Modified_VMwareServers.xml")
+$base = $(Import-Clixml -Path "C:\Amar\Modified_vmdata.xml")
 $bla = $(Import-Clixml -Path "C:\Amar\Modified_ADObjects.xml")
 
 build-FTAudit -BaseArray $bla[0..2] -VMwareArray $base[0..2] | select machinetype, name
