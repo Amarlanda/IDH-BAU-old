@@ -5,19 +5,19 @@
   
     [Parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [System.Collections.ArrayList]$BaseArray,
+    $BaseArray,
 
     #[Parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [System.Collections.ArrayList]$VMwareArray,
+    $VMwareArray,
 
     #[Parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [System.Collections.ArrayList]$ADArray,
+    $ADArray,
 
     #[Parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [System.Collections.ArrayList]$AWSArray
+    $AWSArray
     
   )
   
@@ -72,7 +72,7 @@
 
       foreach($Inner in $InnerArray){
 
-        if (($_| Select-Object -ExpandProperty Name) -contains "$($Outter.name)"){  #Does Outter.name - match Inner.name
+        if ($($Inner.Name) -contains $($Outter.name)){  #Does Outter.name - match Inner.name
                 
           for ($i = 0; $i -lt $($serverProperties.count) ;$i++){
                                                                            
@@ -86,12 +86,11 @@
           $Allservers += $Inner                                         
         } # end of if -compare Outter.name matches Inner.name
             
-        
-        
+                
       } #end of inner array
       
     } #end of outter array
-    #$OutterSwingArray = $null           # Cleared Swing Array so it can be used to pop the inner array. 
+
   }# end of process Script block
 
 
@@ -117,7 +116,7 @@
 
       #return $Allservers
     }
-  $Allservers | Out-GridView
+    return $Allservers 
   }
   
   
@@ -127,8 +126,8 @@
 [System.Collections.ArrayList]$Array0 = 
 [System.Collections.ArrayList]$Array1 = 
 
-$base = $(Import-Clixml -Path "C:\Amar\vmdata.xml")
-$ADbase = $(Import-Clixml -Path "C:\Amar\ADObjects.xml")
+$base = $(Import-Clixml -Path "C:\Amar\Modified_VMwareServers.xml")
+$bla = $(Import-Clixml -Path "C:\Amar\Modified_ADObjects.xml")
 
-build-FTAudit -BaseArray $ADbase[0..300] -VMwareArray $base[0..300]
+build-FTAudit -BaseArray $bla[0..2] -VMwareArray $base[0..2] | select machinetype, name
 
