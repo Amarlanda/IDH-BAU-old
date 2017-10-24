@@ -143,6 +143,6 @@ $base = $(Import-Clixml -Path "C:\Amar\Modified_vmdata.xml")
 $bla = $(Import-Clixml -Path "C:\Amar\Modified_ADObjects.xml")
 
 
- build-FTAudit -BaseArray $bla[0..3] -VMwareArray $base[0..3] 
+ build-FTAudit -BaseArray $bla[0..2] -VMwareArray $base[0..2] 
 
 
