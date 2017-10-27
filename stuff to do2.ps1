@@ -93,10 +93,10 @@
                 
              for ($i = 0; $i -lt $($outterServerProperties.count) ;$i++){
                                                                            
-              # $Inner = $Inner | Select-Object -Property *,                                 #  loop through the properties and append to the current object "
-              # @{n="$($outterServerProperties[$i].Name)";e={$($outterServerProperties[$i].value)}}
+               # $Inner = $Inner | Select-Object -Property *,                                 #  loop through the properties and append to the current object "
+               # @{n="$($outterServerProperties[$i].Name)";e={$($outterServerProperties[$i].value)}}
                
-             $Inner | add-member -membertype noteproperty -Name $($outterServerProperties[$i].Name) -value $($outterServerProperties[$i].value) -force   
+               $Inner | add-member -membertype noteproperty -Name $($outterServerProperties[$i].Name) -value $($outterServerProperties[$i].value) -force   
              } #end of property add forloop
         
              $InnerSwingArray  = $InnerSwingArray | Where-Object { $($_.name) -notlike $($Inner.name)}
@@ -111,15 +111,18 @@
            $InnerArray = $InnerSwingArray        
          } #end of inner array
       
+    
        } #end of outter array
+       $Allservers
 
-
-     }# end of process Script block
-
+     }# end of process $Allserversk
+     
+     
      End{
 
 
-       $OutterSwingArray | ForEach-Object {
+       $outterSwingArray | ForEach-Object {
+         $outterServerProperties = $serverProperties
          $CurrentObj = $_
 
          for ($i = 0; $i -lt $($serverProperties.count) ;$i++){
@@ -133,8 +136,10 @@
          $CurrentObj = $CurrentObj   | add-member -membertype noteproperty -Name "MachineType" -value $outterExpression -force 
 
          $Allservers += $CurrentObj
+         $Allservers
        }
        $InnerSwingArray | ForEach-Object {
+         $innerServerProperties = $serverProperties
          $CurrentObj = $_
 
          for ($i = 0; $i -lt $($serverProperties.count) ;$i++){
@@ -152,8 +157,8 @@
        return $Allservers 
        
      } #end of end 
-   } #end of function
-
+     #end of function
+   }
 
    Clear-Host
 
