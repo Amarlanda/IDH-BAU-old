@@ -1,18 +1,23 @@
-﻿function  nonMatched-array {
+﻿function rename-arry {
+     $returnArry = @() 
+     $Arrray = $args[0]
      $propertyName =$args[2]
-    
+     $expression = $args[1]
      $serverProperties = $($Arrray[0].PSObject.Properties)
 
      $Arrray | ForEach-Object -process {
        $currentitem = $_
 
        for ($i = 0; $i -lt $($serverProperties.count) ;$i++){
-                                                                                 
-         $currentitem |add-member -membertype noteproperty -Name "$propertyName $($serverProperties[$i].Name)" -value "$($serverProperties[$i].value)"
+                                                                                       
+         $currentitem |add-member -membertype noteproperty -Name "$propertyName $($serverProperties[$i].Name)" -value "$($serverProperties[$i].value)" -Force
        } 
       
        $currentitem = $currentitem | Select-Object -Property $propertyName*, name,
        @{n="MachineType";e={$expression}}
+       #$currentitem = $currentitem | Where-Object { $($_.name) -notlike $($Inner.name)} 
+       
+       
        $returnArry += $currentitem # end of for
        $serverProperties = $($returnArry[0].PSObject.Properties)
   
