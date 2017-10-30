@@ -1,3 +1,6 @@
+$HTMLfilepath = "C:\backup\codebase\IDH-BAU\Audit\HTML\Testing.html"
+
+$Allservers  = Import-Clixml -Path C:\backup\codebase\IDH-BAU\Audit\amar\modified_vmdata.xml
 $fragments =@()
 
 $a = "<style>"
@@ -10,15 +13,26 @@ $a = $a + "</style>"
 
 $HTML = $Allservers | select  MachineType, ou, name, 'VI - VC', 'VI - VMPath' | ConvertTo-HTML -head $a -body "<H2>FINANCIAL TIMES</H2>"
 
-$HTML | Out-File C:\amar\Test.html
+$HTMLlength= $html.count 
+
+$Allservers | % {
+  $currentserver = $_
+  $servername = "$($currentserver.name)"
+  $hyperlink = "<a href=`"C:\backup\codebase\IDH-BAU\Audit\amar\$($currentserver.name)-status.html`"> $($currentserver.name) </a>"
+  for($i=0;$i-lt$HTMLlength;$i++){
+    $html[$i]  = $html[$i] -replace $servername, $hyperlink
+  }
+}
+
 <#
-$HTML | %{
- $bla =$_.split("<td>") | select -First 1
+    $html = $HTML | %{
+    $bla =$_.split("<td>") | select -First 1
 
-$_ -replace "<td>", "$bla hey"
+    $_ -replace "<td>", "$bla hey"
 
-}| Out-File C:\amar\Test.html
-#>
+}#>
+
+$HTML | Out-File C:\backup\codebase\IDH-BAU\Audit\HTML\Testing.html
 
 
 ##creating html reports with powershell

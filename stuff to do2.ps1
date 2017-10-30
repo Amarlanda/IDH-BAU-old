@@ -1,16 +1,4 @@
 ﻿function  nonMatched-array {
-   
-   }
-  
-  
-   
-   ##FUNCTION  - to make the Array names more friendly    
-   function rename-Arry {
-  
-     $returnArry = New-Object -TypeName System.Collections.ArrayList
-             
-     $Arrray = $args[0]
-     $expression = $args[1]
      $propertyName =$args[2]
     
      $serverProperties = $($Arrray[0].PSObject.Properties)
