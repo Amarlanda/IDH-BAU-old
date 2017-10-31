@@ -51,7 +51,7 @@ ForEach($ou in $ous){
   if ($OUexclusion -NotContains "$($ou.name)"){
     write-host "$ou.name in loop"
 
-    $FTcomputers += $(Get-ADComputer -filter * -SearchBase $ou.DistinguishedName )|
+    $FTcomputers += $(Get-ADComputer -filter * -SearchBase $ou.DistinguishedName -properties * )|
     Select @{n='ou';e={$ou.name}}, *
   }
 }
@@ -72,6 +72,7 @@ $FTcomputers | % {
         $FTServers += $obj
         "success $($_.name)!"
         "$i"
+        
     }
   catch
     {
