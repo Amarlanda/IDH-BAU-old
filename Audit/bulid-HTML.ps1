@@ -1,6 +1,6 @@
 $HTMLfilepath = "C:\backup\codebase\IDH-BAU\Audit\HTML\Testing.html"
 
-$Allservers  = Import-Clixml -Path C:\backup\codebase\IDH-BAU\Audit\amar\computers.xml
+$Allservers  = Import-Clixml -Path C:\backup\codebase\IDH-BAU\Audit\amar\modified_vmdata.xml
 $fragments =@()
 
 $a = "<style>"
@@ -11,7 +11,7 @@ $a = $a + "TD{border-width: 1px;padding: 0px;border-style: solid;border-color: b
 $a = $a + ".warn {}"
 $a = $a + "</style>"
 
-$HTML = $Allservers | sort name | select  MachineType, PSremoting, ou, name, 'VC', 'VMPath' | ConvertTo-HTML -head $a -body "<H2>FINANCIAL TIMES</H2>"
+$HTML = $Allservers | select  MachineType, ou, name, 'VI - VC', 'VI - VMPath' | ConvertTo-HTML -head $a -body "<H2>FINANCIAL TIMES</H2>"
 
 $HTMLlength= $html.count
 
@@ -43,7 +43,7 @@ $html = $html -replace '(?m)\s+$', "`r`n<BR>"
 $html| Out-File "C:\Amar\Computers\$($_.name)-status.html"
 
 }
-
+#>
 
 <#
     $html = $HTML | %{
