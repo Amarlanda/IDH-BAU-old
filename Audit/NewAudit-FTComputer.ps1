@@ -1,5 +1,56 @@
+function Audit-FTServerEstate {
+  # .SYNOPSIS
+  #   Combines all server data from the VMware Estate, AWS Estate and Windows diretory services
+  # .DESCRIPTION
+  #  the normlises the data using two annoynoymous arrays and a switch statement to handle the varaibles.
+  #
+  #   This CmdLet assumes the user is authenticated.
+  # .PARAMETER ComputerName
+  #   The computer to execute against. By default the local computer is used.
+  # .PARAMETER StartRemoteRegistry
+  #   The script should attempt to start the remote registry service if it is not already running. This parameter will only take effect if the service is not disabled.
+  # .PARAMETER IncludeLoadedUserHives
+  #   Some software packages, such as DropBox install into a users profile rather than into shared areas. Get-InstalledSoftware can increase the search to include each loaded user hive.
+  #
+  #   If a registry hive is not loaded it cannot be searched, this is a limitation of this search style.
+  # .PARAMETER IncludeBlankNames
+  #   By default Get-InstalledSoftware will suppress the display of entries with minimal information. If no DisplayName is set it will be hidden from view. This behaviour may be changed using this parameter.
+  # .PARAMETER DebugConnection
+  #   By default error messages are suppressed. A large number of errors may be returned by a single device because of the granular nature of registry permissions. This parameter allows the displays of all caught exceptions for debugging purposes.
+  # .INPUTS
+  #   System.String
+  # .OUTPUTS
+  #   FTCodeBase.CMDB.SoftwareItem
+  # .EXAMPLE
+  #   Get-InstalledSoftware
+  #
+  #   Get the list of installed applications from the local computer.
+  # .EXAMPLE
+  #   Get-InstalledSoftware -IncludeLoadedUserHives
+  #
+  #   Get the list of installed applications from the local computer, including each loaded user hive.
+  # .EXAMPLE
+  #   Get-InstalledSoftware -ComputerName None -DebugConnection
+  #
+  #   Display all error messages thrown when attempting to audit the specified computer.
+  # .EXAMPLE
+  #   Get-InstalledSoftware -IncludeBlankNames
+  #
+  #   Display all results, including those with very limited information.
+  # .NOTES
+  #   Author: Amar Landa
+  #   Team:   Infrastructure and Data Hosting
+  #
+  #   Change log:
+
+  [CmdLetBinding()]
+  param(
+
+)
 [System.Collections.ArrayList]$Array0 = Import-Clixml -Path "C:\Amar\vmdata.xml"
 [System.Collections.ArrayList]$Array3 = Import-Clixml -Path "C:\Amar\ADObjects.xml"
+
+
 #$SwingArray1 = New-Object -TypeName System.Collections.ArrayList
 $Allservers = New-Object -TypeName System.Collections.ArrayList
 $Array1 = New-Object -TypeName System.Collections.ArrayList
