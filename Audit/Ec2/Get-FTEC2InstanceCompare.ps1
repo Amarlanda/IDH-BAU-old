@@ -1,9 +1,16 @@
-﻿################
+﻿
+Import-Module AWSPowerShell 
+
+################
 ###AWS Key check
 #################
-## get list of keys Get-AWSCredential -ListProfileDetail
+## get list of keys Get-AWSCredentials -ListProfileDetail
 ##if -not AWS key exsists 
-##Set AWS Profile 
+## Set-AWSCredential -AccessKey AKIAJAGKPACAM5XWPZGQ -SecretKey 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 -StoreAs AJ-AWS-LAB
+## now run this to see the new profile
+## get list of keys Get-AWSCredentials -ListProfileDetail
+##Initialize-AWSDefaults -ProfileName AJ-AWS-LAB -Region eu-west-2
+
 ################
 
 $imageshash = @{} 
